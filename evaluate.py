@@ -182,7 +182,7 @@ def main():
         'twitter': {
             'train': './datasets/acl-14-short-data/train.raw',
             'test': './datasets/acl-14-short-data/test.raw',
-            'infer_file': './datasets/sample/sample_100_tweets.xml.seg'
+            'infer_file': './datasets/sample/sample_10_tweets'
         },
         'restaurant': {
             'train': './datasets/semeval14/Restaurants_Train.xml.seg',
