@@ -10,6 +10,7 @@ import os
 import sys
 import random
 import numpy
+import pandas as pd
 
 from sklearn import metrics
 from time import strftime, localtime
@@ -160,7 +161,8 @@ class Instructor:
                     t_outputs_all = torch.cat((t_outputs_all, t_outputs), dim=0)
 
         acc = n_correct / n_total
-        print(t_outputs_all)
+        preds = torch.argmax(t_outputs_all, -1).cpu()
+        print(pd.value_counts(preds))
         f1 = metrics.f1_score(t_targets_all.cpu(), torch.argmax(t_outputs_all, -1).cpu(), labels=[0, 1, 2], average='macro')
         return acc, f1
 
