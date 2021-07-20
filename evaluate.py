@@ -121,7 +121,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', default='bert_spc', type=str)
     parser.add_argument('--dataset', default='laptop', type=str, help='twitter, restaurant, laptop')
-    parser.add_argument('--state_dict', type=str, default='None')
+    parser.add_argument('--model_state_dict', type=str, default='None')
     parser.add_argument('--device', default=None, type=str, help='e.g. cuda:0')
 
     parser.add_argument('--optimizer', default='adam', type=str)
