@@ -65,20 +65,18 @@ class TNet_LF(nn.Module):
         e = e.transpose(1, 2)
         for i in range(2):
             a = torch.bmm(e.transpose(1, 2), v.float())
-            print(type(a))
+            
             a = F.softmax(a, 1)  # (aspect_len,context_len)
-            print(type(a))
+            
             aspect_mid = torch.bmm(e, a)
-            print(type(aspect_mid))
+            
             aspect_mid = torch.cat((aspect_mid, v), dim=1).transpose(1, 2)
-            print(type(aspect_mid))
+            
             aspect_mid = aspect_mid.double()
             aspect_mid = torch.tensor(aspect_mid).type('torch.FloatTensor').to(self.opt.device)
-            print(aspect_mid)
-            print(type(aspect_mid))
-
+            
             aspect_mid = F.relu(self.fc1(aspect_mid).transpose(1, 2))
-            print(type(aspect_mid))
+            
             v = aspect_mid + v
             v = self.position(v.transpose(1, 2), aspect_in_text).transpose(1, 2)
 
