@@ -110,7 +110,6 @@ class Predictor:
         #test_data_loader = DataLoader(dataset=self.testset, batch_size=self.opt.batch_size, shuffle=False)
         val_data_loader = DataLoader(dataset=self.valset, batch_size=self.opt.batch_size, shuffle=False)
 
-        self._reset_params()
         best_model_path = self.opt.model_state_dict
         self.model.load_state_dict(torch.load(best_model_path))
 
