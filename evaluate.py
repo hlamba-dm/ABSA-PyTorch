@@ -72,17 +72,6 @@ class Predictor:
         for arg in vars(self.opt):
             logger.info('>>> {0}: {1}'.format(arg, getattr(self.opt, arg)))
 
-    def _reset_params(self):
-        for child in self.model.children():
-            if type(child) != BertModel:  # skip bert params
-                for p in child.parameters():
-                    if p.requires_grad:
-                        if len(p.shape) > 1:
-                            self.opt.initializer(p)
-                        else:
-                            stdv = 1. / math.sqrt(p.shape[0])
-                            torch.nn.init.uniform_(p, a=-stdv, b=stdv)
-
     def _evaluate_acc_f1(self, data_loader):
         n_correct, n_total = 0, 0
         t_targets_all, t_outputs_all = None, None
@@ -134,6 +123,7 @@ def main():
     parser.add_argument('--model_name', default='bert_spc', type=str)
     parser.add_argument('--dataset', default='laptop', type=str, help='twitter, restaurant, laptop')
     parser.add_argument('--state_dict', type=str, default='None')
+    parser.add_argument('--device', default=None, type=str, help='e.g. cuda:0')
 
     parser.add_argument('--optimizer', default='adam', type=str)
     parser.add_argument('--initializer', default='xavier_uniform_', type=str)
@@ -151,7 +141,6 @@ def main():
     parser.add_argument('--polarities_dim', default=3, type=int)
     parser.add_argument('--hops', default=3, type=int)
     parser.add_argument('--patience', default=5, type=int)
-    parser.add_argument('--device', default=None, type=str, help='e.g. cuda:0')
     parser.add_argument('--seed', default=1234, type=int, help='set seed for reproducibility')
     parser.add_argument('--local_context_focus', default='cdm', type=str, help='local context focus mode, cdw or cdm')
     parser.add_argument('--SRD', default=3, type=int, help='semantic-relative-distance, see the paper of LCF-BERT model')
@@ -238,8 +227,6 @@ def main():
     opt.model_class = model_classes[opt.model_name]
     opt.dataset_file = dataset_files[opt.dataset]
     opt.inputs_cols = input_colses[opt.model_name]
-    opt.initializer = initializers[opt.initializer]
-    opt.optimizer = optimizers[opt.optimizer]
 
     opt.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') \
         if opt.device is None else torch.device(opt.device)

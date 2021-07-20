@@ -49,9 +49,11 @@ def process(filename):
     fout.close() 
 
 if __name__ == '__main__':
-    process('./datasets/acl-14-short-data/train.raw')
-    process('./datasets/acl-14-short-data/test.raw')
-    process('./datasets/semeval14/Restaurants_Train.xml.seg')
-    process('./datasets/semeval14/Restaurants_Test_Gold.xml.seg')
-    process('./datasets/semeval14/Laptops_Train.xml.seg')
-    process('./datasets/semeval14/Laptops_Test_Gold.xml.seg')
+    #process('./datasets/acl-14-short-data/train.raw')
+    #process('./datasets/acl-14-short-data/test.raw')
+    #process('./datasets/semeval14/Restaurants_Train.xml.seg')
+    #process('./datasets/semeval14/Restaurants_Test_Gold.xml.seg')
+    #process('./datasets/semeval14/Laptops_Train.xml.seg')
+    #process('./datasets/semeval14/Laptops_Test_Gold.xml.seg')
+
+    process('./datasets/sample/sample_10_tweets')
