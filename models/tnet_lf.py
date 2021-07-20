@@ -81,6 +81,9 @@ class TNet_LF(nn.Module):
             print(type(aspect_mid))
             v = aspect_mid + v
             v = self.position(v.transpose(1, 2), aspect_in_text).transpose(1, 2)
+
+
+        v = toch.tensor(v).type('torch.FloatTensor').to(self.opt.device)
         z = F.relu(self.convs3(v))  # [(N,Co,L), ...]*len(Ks)
         z = F.max_pool1d(z, z.size(2)).squeeze(2)
         out = self.fc(z)
