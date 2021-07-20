@@ -153,7 +153,7 @@ if __name__ == '__main__':
     # set your trained models here
     #opt.state_dict_path = 'state_dict/ian_restaurant_acc0.7911'
     #opt.state_dict_path =  'state_dict/td_lstm_twitter_val_acc_0.6951'
-    opt.state_dict_path = 'state_dict/tnet_lf_twitter_val_acc_0.5934'
+    opt.state_dict_path = 'state_dict/tnet_lf_twitter_val_acc_0.4679'
     opt.embed_dim = 300
     opt.hidden_dim = 300
     opt.max_seq_len = 85
