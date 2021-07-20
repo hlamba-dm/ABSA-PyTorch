@@ -73,7 +73,7 @@ class TNet_LF(nn.Module):
             aspect_mid = torch.cat((aspect_mid, v), dim=1).transpose(1, 2)
             print(type(aspect_mid))
             aspect_mid = aspect_mid.double()
-            aspect_mid = torch.tensor(aspect_mid).type('torch.FloatTensor')
+            aspect_mid = torch.tensor(aspect_mid).type('torch.FloatTensor').to(self.opt.device)
             print(aspect_mid)
             print(type(aspect_mid))
 
