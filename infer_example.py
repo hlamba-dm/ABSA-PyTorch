@@ -53,6 +53,7 @@ class Inferer:
         right_indices = self.tokenizer.text_to_sequence(text_right, reverse=True)
         right_with_aspect_indices = self.tokenizer.text_to_sequence(aspect + " " + text_right, reverse=True)
         aspect_indices = self.tokenizer.text_to_sequence(aspect)
+        aspect_in_text = torch.tensor([left_context_len.item(), (left_context_len + aspect_len - 1).item()])
         left_len = np.sum(left_indices != 0)
         aspect_len = np.sum(aspect_indices != 0)
         aspect_boundary = np.asarray([left_len, left_len + aspect_len - 1], dtype=np.int64)
