@@ -165,7 +165,12 @@ if __name__ == '__main__':
     opt.SRD = 3
 
     inf = Inferer(opt)
-    t_probs = inf.evaluate('received my google wave account today ! sorry have no invites , but i will spread the love if i receive any , thanks twitter community !',
-                           'google wave')
-    print(t_probs)
-    print(t_probs.argmax(axis=-1))
+    sentences = [" al gore's Next Invention : The Future of Books ? -LRB- Cheap Shot , But Cool application -RRB- . - by lizgannes startup",
+                 "shaquille o'neal to miss 3rd straight playoff game | The ... : $T$ will miss his third straight play ... .",
+                 "lindsay lohan looking gorgeous in nyc - 10/14 : here are new photos of $T$ helping launch the new velve . ."]
+    entities = ['al gore',"shaquille o'neal",'lindsay lohan']
+
+    for i in range(len(entities)):
+        t_probs = inf.evaluate(sentence[i], entities[i])
+        print(t_probs)
+        print(t_probs.argmax(axis=-1))
