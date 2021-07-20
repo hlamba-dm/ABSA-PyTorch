@@ -165,5 +165,5 @@ if __name__ == '__main__':
     opt.SRD = 3
 
     inf = Inferer(opt)
-    t_probs = inf.evaluate('the service is terrible', 'service')
+    t_probs = inf.evaluate('the service is amazing', 'service')
     print(t_probs.argmax(axis=-1) - 1)
