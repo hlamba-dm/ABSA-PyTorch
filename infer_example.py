@@ -171,6 +171,6 @@ if __name__ == '__main__':
     entities = ['al gore',"shaquille o'neal",'lindsay lohan']
 
     for i in range(len(entities)):
-        t_probs = inf.evaluate(sentence[i], entities[i])
+        t_probs = inf.evaluate(sentences[i], entities[i])
         print(t_probs)
         print(t_probs.argmax(axis=-1))
