@@ -114,6 +114,9 @@ class Predictor:
         self.model.load_state_dict(torch.load(best_model_path))
 
         preds, gt_labels, test_acc, test_f1 = self._evaluate_acc_f1(val_data_loader)
+
+        print(preds)
+        print(gt_labels)
         logger.info('>> test_acc: {:.4f}, test_f1: {:.4f}'.format(test_acc, test_f1))
 
 def main():
