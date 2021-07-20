@@ -147,14 +147,15 @@ if __name__ == '__main__':
     opt = Option()
     opt.model_name = 'cabasc'
     opt.model_class = model_classes[opt.model_name]
-    opt.dataset = 'twitter'
+    opt.dataset = 'restaurant'
     opt.dataset_file = dataset_files[opt.dataset]
     opt.inputs_cols = input_colses[opt.model_name]
     # set your trained models here
     #opt.state_dict_path = 'state_dict/ian_restaurant_acc0.7911'
     #opt.state_dict_path =  'state_dict/td_lstm_twitter_val_acc_0.6951'
     #opt.state_dict_path = 'state_dict/tnet_lf_twitter_val_acc_0.4679'
-    opt.state_dict_path = 'state_dict/cabasc_twitter_val_acc_0.6286'
+    opt.state_dict_path = 'state_dict/cabasc_restaurant_val_acc_0.7348'
+
     opt.embed_dim = 300
     opt.hidden_dim = 300
     opt.max_seq_len = 85
@@ -167,10 +168,13 @@ if __name__ == '__main__':
     opt.SRD = 3
 
     inf = Inferer(opt)
-    sentences = [" al gore's Next Invention : The Future of Books ? -LRB- Cheap Shot , But Cool application -RRB- . - by lizgannes startup",
-                 "shaquille o'neal to miss 3rd straight playoff game | The ... : $T$ will miss his third straight play ... .",
-                 "lindsay lohan looking gorgeous in nyc - 10/14 : here are new photos of $T$ helping launch the new velve . ."]
-    entities = ['al gore',"shaquille o'neal",'lindsay lohan']
+    #sentences = [" al gore's Next Invention : The Future of Books ? -LRB- Cheap Shot , But Cool application -RRB- . - by lizgannes startup",
+    #             "shaquille o'neal to miss 3rd straight playoff game | The ... : $T$ will miss his third straight play ... .",
+    #             "lindsay lohan looking gorgeous in nyc - 10/14 : here are new photos of $T$ helping launch the new velve . ."]
+    #entities = ['al gore',"shaquille o'neal",'lindsay lohan']
+
+    sentences = ["the service is bad"]
+    entities = ["service"]
 
     for i in range(len(entities)):
         t_probs = inf.evaluate(sentences[i], entities[i])
