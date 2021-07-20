@@ -165,5 +165,7 @@ if __name__ == '__main__':
     opt.SRD = 3
 
     inf = Inferer(opt)
-    t_probs = inf.evaluate('the service is amazing', 'service')
-    print(t_probs.argmax(axis=-1) - 1)
+    t_probs = inf.evaluate('received my google wave account today ! sorry have no invites , but i will spread the love if i receive any , thanks twitter community !',
+                           'google wave')
+    print(t_probs)
+    print(t_probs.argmax(axis=-1))
