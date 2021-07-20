@@ -64,7 +64,7 @@ class TNet_LF(nn.Module):
         v = v.transpose(1, 2)
         e = e.transpose(1, 2)
         for i in range(2):
-            a = torch.bmm(e.transpose(1, 2), v)
+            a = torch.bmm(e.transpose(1, 2), v.float())
             a = F.softmax(a, 1)  # (aspect_len,context_len)
             aspect_mid = torch.bmm(e, a)
             aspect_mid = torch.cat((aspect_mid, v), dim=1).transpose(1, 2)
