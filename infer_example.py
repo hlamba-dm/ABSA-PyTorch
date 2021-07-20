@@ -54,8 +54,6 @@ class Inferer:
         right_with_aspect_indices = self.tokenizer.text_to_sequence(aspect + " " + text_right, reverse=True)
         aspect_indices = self.tokenizer.text_to_sequence(aspect)
 
-
-
         left_len = np.sum(left_indices != 0)
         aspect_len = np.sum(aspect_indices != 0)
         aspect_boundary = np.asarray([left_len, left_len + aspect_len - 1], dtype=np.int64)
@@ -136,7 +134,8 @@ if __name__ == '__main__':
         'memnet': ['context_indices', 'aspect_indices'],
         'ram': ['text_indices', 'aspect_indices', 'left_indices'],
         'cabasc': ['text_indices', 'aspect_indices', 'left_with_aspect_indices', 'right_with_aspect_indices'],
-        'tnet_lf': ['text_indices', 'aspect_indices', 'aspect_in_text'],
+        #'tnet_lf': ['text_indices', 'aspect_indices', 'aspect_in_text'],
+        'tnet_lf': ['text_indices', 'aspect_indices', 'aspect_boundary'],
         'aoa': ['text_indices', 'aspect_indices'],
         'mgan': ['text_indices', 'aspect_indices', 'left_indices'],
         'asgcn': ['text_indices', 'aspect_indices', 'left_indices', 'dependency_graph'],
