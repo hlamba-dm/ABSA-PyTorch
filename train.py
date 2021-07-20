@@ -11,7 +11,7 @@ import sys
 import random
 import numpy
 import pandas as pd
-
+import pickle
 from sklearn import metrics
 from time import strftime, localtime
 
@@ -162,7 +162,7 @@ class Instructor:
 
         acc = n_correct / n_total
         preds = torch.argmax(t_outputs_all, -1).cpu()
-        print(pd.value_counts(preds))
+        pickle.dump(preds, open('predictions.pkl', 'wb'))
         f1 = metrics.f1_score(t_targets_all.cpu(), torch.argmax(t_outputs_all, -1).cpu(), labels=[0, 1, 2], average='macro')
         return acc, f1
 
