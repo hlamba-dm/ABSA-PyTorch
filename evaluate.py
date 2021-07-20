@@ -98,8 +98,10 @@ class Predictor:
 
         print("Predictions")
         preds = torch.argmax(t_outputs_all, -1).cpu()
+        print(preds)
         print("GT ALL")
         gt_labels = torch.argmax(t_targets_all, -1).cpu()
+        print(t_targets_all)
         pickle.dump(preds, open('predictions.pkl', 'wb'))
         f1 = metrics.f1_score(t_targets_all.cpu(), torch.argmax(t_outputs_all, -1).cpu(), labels=[0, 1, 2], average='macro')
         return preds, gt_labels, acc, f1
