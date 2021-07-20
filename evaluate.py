@@ -83,57 +83,6 @@ class Predictor:
                             stdv = 1. / math.sqrt(p.shape[0])
                             torch.nn.init.uniform_(p, a=-stdv, b=stdv)
 
-    def _train(self, criterion, optimizer, train_data_loader, val_data_loader):
-        max_val_acc = 0
-        max_val_f1 = 0
-        max_val_epoch = 0
-        global_step = 0
-        path = None
-        for i_epoch in range(self.opt.num_epoch):
-            logger.info('>' * 100)
-            logger.info('epoch: {}'.format(i_epoch))
-            n_correct, n_total, loss_total = 0, 0, 0
-            # switch model to training mode
-            self.model.train()
-            for i_batch, batch in enumerate(train_data_loader):
-                global_step += 1
-                # clear gradient accumulators
-                optimizer.zero_grad()
-
-                inputs = [batch[col].to(self.opt.device) for col in self.opt.inputs_cols]
-                outputs = self.model(inputs)
-                targets = batch['polarity'].to(self.opt.device)
-
-                loss = criterion(outputs, targets)
-                loss.backward()
-                optimizer.step()
-
-                n_correct += (torch.argmax(outputs, -1) == targets).sum().item()
-                n_total += len(outputs)
-                loss_total += loss.item() * len(outputs)
-                if global_step % self.opt.log_step == 0:
-                    train_acc = n_correct / n_total
-                    train_loss = loss_total / n_total
-                    logger.info('loss: {:.4f}, acc: {:.4f}'.format(train_loss, train_acc))
-
-            val_acc, val_f1 = self._evaluate_acc_f1(val_data_loader)
-            logger.info('> val_acc: {:.4f}, val_f1: {:.4f}'.format(val_acc, val_f1))
-            if val_acc > max_val_acc:
-                max_val_acc = val_acc
-                max_val_epoch = i_epoch
-                if not os.path.exists('state_dict'):
-                    os.mkdir('state_dict')
-                path = 'state_dict/{0}_{1}_val_acc_{2}'.format(self.opt.model_name, self.opt.dataset, round(val_acc, 4))
-                torch.save(self.model.state_dict(), path)
-                logger.info('>> saved: {}'.format(path))
-            if val_f1 > max_val_f1:
-                max_val_f1 = val_f1
-            if i_epoch - max_val_epoch >= self.opt.patience:
-                print('>> early stop.')
-                break
-
-        return path
-
     def _evaluate_acc_f1(self, data_loader):
         n_correct, n_total = 0, 0
         t_targets_all, t_outputs_all = None, None
@@ -179,13 +128,13 @@ class Predictor:
         preds, gt_labels, test_acc, test_f1 = self._evaluate_acc_f1(val_data_loader)
         logger.info('>> test_acc: {:.4f}, test_f1: {:.4f}'.format(test_acc, test_f1))
 
-
-
 def main():
     # Hyper Parameters
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_name', default='bert_spc', type=str)
     parser.add_argument('--dataset', default='laptop', type=str, help='twitter, restaurant, laptop')
+    parser.add_argument('--state_dict', type=str, default='None')
+
     parser.add_argument('--optimizer', default='adam', type=str)
     parser.add_argument('--initializer', default='xavier_uniform_', type=str)
     parser.add_argument('--lr', default=2e-5, type=float, help='try 5e-5, 2e-5 for BERT, 1e-3 for others')
@@ -204,10 +153,9 @@ def main():
     parser.add_argument('--patience', default=5, type=int)
     parser.add_argument('--device', default=None, type=str, help='e.g. cuda:0')
     parser.add_argument('--seed', default=1234, type=int, help='set seed for reproducibility')
-    parser.add_argument('--valset_ratio', default=0, type=float, help='set ratio between 0 and 1 for validation support')
-    # The following parameters are only valid for the lcf-bert model
     parser.add_argument('--local_context_focus', default='cdm', type=str, help='local context focus mode, cdw or cdm')
     parser.add_argument('--SRD', default=3, type=int, help='semantic-relative-distance, see the paper of LCF-BERT model')
+
     opt = parser.parse_args()
 
     if opt.seed is not None:
