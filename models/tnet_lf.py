@@ -68,7 +68,7 @@ class TNet_LF(nn.Module):
             a = F.softmax(a, 1)  # (aspect_len,context_len)
             aspect_mid = torch.bmm(e, a)
             aspect_mid = torch.cat((aspect_mid, v), dim=1).transpose(1, 2)
-            aspect_mid = F.relu(self.fc1(aspect_mid).transpose(1, 2))
+            aspect_mid = F.relu(self.fc1(aspect_mid.double()).transpose(1, 2))
             v = aspect_mid + v
             v = self.position(v.transpose(1, 2), aspect_in_text).transpose(1, 2)
         z = F.relu(self.convs3(v))  # [(N,Co,L), ...]*len(Ks)
