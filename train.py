@@ -38,6 +38,7 @@ class Instructor:
             tokenizer = Tokenizer4Bert(opt.max_seq_len, opt.pretrained_bert_name)
             bert = BertModel.from_pretrained(opt.pretrained_bert_name)
             self.model = opt.model_class(bert, opt).to(opt.device)
+            self.model = model.double()
         else:
             tokenizer = build_tokenizer(
                 fnames=[opt.dataset_file['train'], opt.dataset_file['test']],
@@ -297,7 +298,6 @@ def main():
 
     ins = Instructor(opt)
     ins.run()
-
 
 if __name__ == '__main__':
     main()
