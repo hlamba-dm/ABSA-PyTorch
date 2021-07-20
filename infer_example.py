@@ -145,14 +145,15 @@ if __name__ == '__main__':
     }
     class Option(object): pass
     opt = Option()
-    opt.model_name = 'td_lstm'
+    opt.model_name = 'tnet_lf'
     opt.model_class = model_classes[opt.model_name]
     opt.dataset = 'twitter'
     opt.dataset_file = dataset_files[opt.dataset]
     opt.inputs_cols = input_colses[opt.model_name]
     # set your trained models here
     #opt.state_dict_path = 'state_dict/ian_restaurant_acc0.7911'
-    opt.state_dict_path =  'state_dict/td_lstm_twitter_val_acc_0.6951'
+    #opt.state_dict_path =  'state_dict/td_lstm_twitter_val_acc_0.6951'
+    opt.state_dict_path = 'state_dict/tnet_lf_twitter_val_acc_0.6218'
     opt.embed_dim = 300
     opt.hidden_dim = 300
     opt.max_seq_len = 85
