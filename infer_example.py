@@ -145,7 +145,7 @@ if __name__ == '__main__':
     }
     class Option(object): pass
     opt = Option()
-    opt.model_name = 'tnet_lf'
+    opt.model_name = 'td_lstm'
     opt.model_class = model_classes[opt.model_name]
     opt.dataset = 'twitter'
     opt.dataset_file = dataset_files[opt.dataset]
