@@ -59,7 +59,7 @@ class Inferer:
         left_len = np.sum(left_indices != 0)
         aspect_len = np.sum(aspect_indices != 0)
         aspect_boundary = np.asarray([left_len, left_len + aspect_len - 1], dtype=np.int64)
-        aspect_in_text = torch.tensor([left_len.item(), (left_len + aspect_len - 1).item()])        
+        aspect_in_text = torch.tensor([left_len.item(), (left_len + aspect_len - 1).item()])
 
         text_len = np.sum(text_indices != 0)
         concat_bert_indices = self.tokenizer.text_to_sequence('[CLS] ' + text_left + " " + aspect + " " + text_right + ' [SEP] ' + aspect + " [SEP]")
@@ -85,6 +85,7 @@ class Inferer:
             'aspect_indices': aspect_indices,
             'aspect_boundary': aspect_boundary,
             'dependency_graph': dependency_graph,
+            'aspect_in_text': aspect_in_text,
         }
 
         t_inputs = [torch.tensor([data[col]], device=self.opt.device) for col in self.opt.inputs_cols]
