@@ -95,12 +95,13 @@ class Predictor:
                     t_outputs_all = torch.cat((t_outputs_all, t_outputs), dim=0)
 
         acc = n_correct / n_total
-        preds = torch.argmax(t_outputs_all, -1).cpu()
-        gt_labels = torch.argmax(t_targets_all, -1).cpu()
 
+        print("Predictions")
+        preds = torch.argmax(t_outputs_all, -1).cpu()
+        print("GT ALL")
+        gt_labels = torch.argmax(t_targets_all, -1).cpu()
         pickle.dump(preds, open('predictions.pkl', 'wb'))
         f1 = metrics.f1_score(t_targets_all.cpu(), torch.argmax(t_outputs_all, -1).cpu(), labels=[0, 1, 2], average='macro')
-
         return preds, gt_labels, acc, f1
 
     def run(self):
@@ -114,9 +115,7 @@ class Predictor:
         self.model.load_state_dict(torch.load(best_model_path))
 
         preds, gt_labels, test_acc, test_f1 = self._evaluate_acc_f1(val_data_loader)
-
-        print(preds)
-        print(gt_labels)
+        print(test_acc)
         logger.info('>> test_acc: {:.4f}, test_f1: {:.4f}'.format(test_acc, test_f1))
 
 def main():
